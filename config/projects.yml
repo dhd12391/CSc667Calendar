@@ -1,0 +1,9 @@
+project_0:
+  url: "/"
+  description: "Environment Set Up"
+project_1:
+  url: "/"
+  description: "Custom Home Page Route"
+project_2:
+  url: "/pages/project_2"
+  description: "Description of Bootstrap set up"
