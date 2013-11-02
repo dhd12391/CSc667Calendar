@@ -1,0 +1,22 @@
+.daysOfCurrentMonth{
+    text-align: center;
+}
+
+.currentDate{
+    border: 1px solid black;
+    background: #7ec000;
+    color: #000000;
+    text-align: center;
+}
+
+.calendar td{
+    padding: 4px;
+	height: 50px;
+    width: 100px;
+}
+
+.weekdays{
+    background: #FFA500;
+    color: #FFFFFF;
+    text-align: center;
+}

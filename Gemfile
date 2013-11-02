@@ -6,6 +6,8 @@ gem 'bootstrap-sass', '2.3.2.0'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem 'jquery-rails', '3.0.4'
+
 group :production, :staging do 
 	gem 'pg'
 end
@@ -27,7 +29,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
