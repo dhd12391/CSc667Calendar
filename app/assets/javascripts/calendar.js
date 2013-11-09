@@ -174,7 +174,7 @@ function events(eDay,eMonth,eYear){
 			x = prompt("Please enter description: ");
 		}
 		desc_id.value = x;
-		events(eDay);
+		events(eDay,eMonth,eYear);
 	}
 
 	desc_id.value = "";
