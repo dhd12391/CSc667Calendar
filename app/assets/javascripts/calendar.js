@@ -100,6 +100,7 @@ function calendar(month, yr){
 
 	while (i<=totalDays[newMonth]){
 
+
 		//Checking if the 7 days in a week have been filled for one row/week
 		if (w > 6){
 			w = 0;
@@ -110,13 +111,16 @@ function calendar(month, yr){
 		if (i == defaultDay && newMonth == defaultMonth && newYear == defaultYear){
 			calendarDrawing += "<td class='currentDate' onMouseover='this.style.background=\"#7EC0EE\"; this.style.color=\"#FFFFFF\"' "
 							+ "onMouseOut='this.style.background=\"#7EC000\"; this.style.color=\"#000000\"' "
-							+ "onclick =\"events(" +i+ ")\">  " +i+ "<ul id=\"desc_"+i+"\"></ul></td>";							
+							+ "onclick =\"events("+i+","+newMonth+","+newYear+")\">  " +i+ "<ul id=\"desc_"+i+"\">"
+							+ "</ul></td>";							
 		}
 		else{
 			calendarDrawing += "<td class='daysOfCurrentMonth' onMouseOver='this.style.background=\"#7EC0EE\"; this.style.color=\"#FFFFFF\"' "
 							+ "onMouseOut='this.style.background=\"#FFFFFF\"; this.style.color=\"#000000\"' "
-							+ "onclick =\"events(" +i+ ")\">  " +i+ "<ul id=\"desc_"+i+"\"></ul></td>";
+							+ "onclick =\"events("+i+","+newMonth+","+newYear+")\">  " +i+ "<ul id=\"desc_"+i+"\">"
+							+ "</ul></td>";
 		}
+
 
 		i++;	//go to next ith day
 		w++;	//increase number of days to check for filled week (7 days)
@@ -127,6 +131,15 @@ function calendar(month, yr){
 		calendarDrawing += "<td>&nbsp;</td>";
 		w++;
 	}
+
+		$.getJSON("/appointments",function(data){
+			for (var j=0; j<data.length; j++) {
+				if(data[j].year == newYear && data[j].month-1 == newMonth){
+					$("#desc_"+data[j].day).append(data[j].time + " " + data[j].description + "<br><br>");
+				}
+			}
+		});	
+
 
 	//Closing the table cleanly.
 	calendarDrawing += "</tr></table>";
@@ -141,19 +154,30 @@ function calendar(month, yr){
 
 ************/
 
-function events(eDay){
+function events(eDay,eMonth,eYear){
 	//if date is the same as last call, keep events previously stored
 	if(desc_id.value != ""){
 		$("#desc_"+eDay).append("<li>"+ time_id.value +" "+ desc_id.value + "</li>");
-		desc_id.value = "";
-		time_id.value = "00:00";
+		
+		$.ajax({
+			type: "POST",
+			url: "/appointments",
+			contentType: 'application/json',
+			dataType: 'json',
+			data: JSON.stringify({"appointment": {"year": eYear, "month": eMonth+1, "day": eDay, "time": time_id.value, "description": desc_id.value}})
+		});		
 	}
+
 	else{
 		var x = prompt("Please enter description: ");
 		while(x == ""){
 			x = prompt("Please enter description: ");
 		}
 		desc_id.value = x;
+		events(eDay);
 	}
-	
+
+	desc_id.value = "";
+	time_id.value = "00:00";	
+
 }
